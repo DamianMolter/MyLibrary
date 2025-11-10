@@ -1,8 +1,17 @@
 import db from "../config/database.js";
 
 class Rental {
+  static async #updateOverdue() {
+    await db.query(
+      `UPDATE rentals 
+         SET status = 'overdue' 
+         WHERE status = 'active' AND due_date < CURDATE()`
+    );
+  }
+
   // Pobierz wszystkie wypożyczenia
   static async getAll() {
+    await this.#updateOverdue();
     const [rows] = await db.query(
       `SELECT r.*, 
               b.title, b.author, b.isbn,
@@ -17,6 +26,7 @@ class Rental {
 
   // Pobierz wypożyczenie po ID
   static async getById(id) {
+    await this.#updateOverdue();
     const [rows] = await db.query(
       `SELECT r.*, 
               b.title, b.author, b.isbn,
@@ -32,6 +42,7 @@ class Rental {
 
   // Pobierz aktywne wypożyczenia
   static async getActive() {
+    await this.#updateOverdue();
     const [rows] = await db.query(
       `SELECT r.*, 
               b.title, b.author, b.isbn,
@@ -47,13 +58,7 @@ class Rental {
 
   // Pobierz przeterminowane wypożyczenia
   static async getOverdue() {
-    // Automatycznie zaktualizuj status na 'overdue'
-    await db.query(
-      `UPDATE rentals 
-         SET status = 'overdue' 
-         WHERE status = 'active' AND due_date < CURDATE()`
-    );
-
+    await this.#updateOverdue();
     const [rows] = await db.query(
       `SELECT r.*, 
               b.title, b.author, b.isbn,
@@ -190,12 +195,13 @@ class Rental {
 
   // Statystyki wypożyczeń
   static async getStats() {
+    await this.#updateOverdue();
     const [activeCount] = await db.query(
       'SELECT COUNT(*) as count FROM rentals WHERE status = "active"'
     );
 
     const [overdueCount] = await db.query(
-      'SELECT COUNT(*) as count FROM rentals WHERE status = "active" AND due_date < CURDATE()'
+      'SELECT COUNT(*) as count FROM rentals WHERE status = "overdue"'
     );
 
     const [returnedCount] = await db.query(
