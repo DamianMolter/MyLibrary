@@ -36,7 +36,7 @@ router.get("/:id", getRentalById);
 router.post("/", createRental);
 
 // PUT /api/rentals/:id/return - Zwróć książkę
-router.put("/:id/return", returnBook);
+router.patch("/:id/return", returnBook);
 
 // PUT /api/rentals/:id/extend - Przedłuż wypożyczenie
 router.patch("/:id/extend", extendRental);
