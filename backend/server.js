@@ -7,6 +7,7 @@ dotenv.config({ path: "./.env" });
 import bookRoutes from "./routes/bookRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import rentalRoutes from "./routes/rentalRoutes.js";
+import googleBooksRoutes from "./routes/googleBooksRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -24,6 +25,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rentals", rentalRoutes);
+app.use("/api/google-books", googleBooksRoutes);
 
 // Uruchomienie serwera
 app.listen(PORT, () => {
