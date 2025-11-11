@@ -1,0 +1,147 @@
+.rental-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-left: 4px solid #3498db;
+}
+
+.rental-card.overdue {
+  border-left-color: #e74c3c;
+}
+
+.rental-card.returned {
+  border-left-color: #95a5a6;
+  opacity: 0.8;
+}
+
+.rental-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rental-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.rental-card-header h3 {
+  color: #2c3e50;
+  margin: 0;
+  flex: 1;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-green {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-red {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-gray {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.rental-card-body {
+  margin-bottom: 1rem;
+}
+
+.rental-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-item strong {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.info-item span {
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+.days-left {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overdue-text {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.warning-text {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.rental-card-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.btn-extend {
+  background-color: #f39c12;
+  color: white;
+}
+
+.btn-return {
+  background-color: #27ae60;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .rental-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rental-card-footer {
+    grid-template-columns: 1fr;
+  }
+}

@@ -42,7 +42,7 @@ export const rentalsAPI = {
   getActive: () => api.get("/rentals/active"),
   getOverdue: () => api.get("/rentals/overdue"),
   getStats: () => api.get("/rentals/stats"),
-  getMostRented: (limit = 10) => api.get(`/rentals/most-rented?limit=${limit}`),
+  getMostRented: () => api.get(`/rentals/most-rented`),
 };
 
 // Google Books API

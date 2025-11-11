@@ -221,7 +221,7 @@ class Rental {
   }
 
   // Najpopularniejsze książki
-  static async getMostRented(limit = 10) {
+  static async getMostRented(limit) {
     const [rows] = await db.query(
       `SELECT b.id, b.title, b.author, b.isbn, COUNT(r.id) as rental_count
        FROM books b
