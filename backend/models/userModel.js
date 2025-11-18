@@ -1,31 +1,51 @@
 import db from "../config/database.js";
+import bcrypt from "bcrypt";
 
 class User {
-  // Pobierz wszystkich użytkowników
+  // Pobierz wszystkich użytkowników (bez hasła)
   static async getAll() {
     const [rows] = await db.query(
-      "SELECT * FROM users ORDER BY created_at DESC"
+      "SELECT id, first_name, last_name, email, phone, role, created_at FROM users ORDER BY created_at DESC"
     );
     return rows;
   }
 
-  // Pobierz użytkownika po ID
+  // Pobierz użytkownika po ID (bez hasła)
   static async getById(id) {
-    const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+    const [rows] = await db.query(
+      "SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE id = ?",
+      [id]
+    );
     return rows[0];
   }
 
-  // Pobierz użytkownika po email
-  static async getByEmail(email) {
+  // Pobierz użytkownika po email (z hasłem - do logowania)
+  static async getByEmailWithPassword(email) {
     const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [
       email,
     ]);
     return rows[0];
   }
 
-  // Dodaj nowego użytkownika
-  static async create(userData) {
-    const { first_name, last_name, email, phone } = userData;
+  // Pobierz użytkownika po email (bez hasła)
+  static async getByEmail(email) {
+    const [rows] = await db.query(
+      "SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE email = ?",
+      [email]
+    );
+    return rows[0];
+  }
+
+  // Zarejestruj nowego użytkownika
+  static async register(userData) {
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone,
+      role = "reader",
+    } = userData;
 
     // Sprawdź czy email już istnieje
     const existingUser = await this.getByEmail(email);
@@ -33,9 +53,47 @@ class User {
       throw new Error("Użytkownik z tym adresem email już istnieje");
     }
 
+    // Hashuj hasło
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const [result] = await db.query(
-      "INSERT INTO users (first_name, last_name, email, phone) VALUES (?, ?, ?, ?)",
-      [first_name, last_name, email, phone]
+      "INSERT INTO users (first_name, last_name, email, password, phone, role) VALUES (?, ?, ?, ?, ?, ?)",
+      [first_name, last_name, email, hashedPassword, phone, role]
+    );
+
+    return result.insertId;
+  }
+
+  // Zweryfikuj hasło
+  static async verifyPassword(plainPassword, hashedPassword) {
+    return await bcrypt.compare(plainPassword, hashedPassword);
+  }
+
+  // Dodaj nowego użytkownika (przez admina)
+  static async create(userData) {
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone,
+      role = "reader",
+    } = userData;
+
+    // Sprawdź czy email już istnieje
+    const existingUser = await this.getByEmail(email);
+    if (existingUser) {
+      throw new Error("Użytkownik z tym adresem email już istnieje");
+    }
+
+    // Hashuj hasło (lub użyj domyślnego)
+    const hashedPassword = password
+      ? await bcrypt.hash(password, 10)
+      : await bcrypt.hash("password123", 10); // domyślne hasło
+
+    const [result] = await db.query(
+      "INSERT INTO users (first_name, last_name, email, password, phone, role) VALUES (?, ?, ?, ?, ?, ?)",
+      [first_name, last_name, email, hashedPassword, phone, role]
     );
     return result.insertId;
   }
@@ -81,7 +139,7 @@ class User {
   static async search(query) {
     const searchTerm = `%${query}%`;
     const [rows] = await db.query(
-      "SELECT * FROM users WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?",
+      "SELECT id, first_name, last_name, email, phone, role, created_at FROM users WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ?",
       [searchTerm, searchTerm, searchTerm]
     );
     return rows;
