@@ -16,4 +16,5 @@ WHERE password = '';
 -- Dodaj konto administratora (hasło: admin123)
 INSERT INTO users (first_name, last_name, email, password, role, phone) 
 VALUES ('Admin', 'System', 'admin@library.com', '$2b$10$rZ5FqP0vK8pY.4LqJ9mNP.FqF9yqF5QxH5VxH5VxH5VxH5VxH5VxH', 'admin', '000000000')
+VALUES ('Czytelnik', 'System', 'jan@example.com', '$2a$12$uwSb3d5hv368cMqIgI/SvuO27faSiGMmdH5z5tY43Hrj6v1BsL2tK', 'reader', '000000000')
 ON DUPLICATE KEY UPDATE role = 'admin';
