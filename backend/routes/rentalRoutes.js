@@ -11,34 +11,35 @@ import {
   returnBook,
   extendRental,
 } from "../controllers/rentalController.js";
+import { authenticate, isAdmin, isReader } from "../middleware/auth.js";
 
 const router = express.Router();
 
 // GET /api/rentals - Pobierz wszystkie wypożyczenia
-router.get("/", getAllRentals);
+router.get("/", authenticate, getAllRentals);
 
 // GET /api/rentals/active - Pobierz aktywne wypożyczenia
-router.get("/active", getActiveRentals);
+router.get("/active", authenticate, getActiveRentals);
 
 // GET /api/rentals/overdue - Pobierz przeterminowane wypożyczenia
-router.get("/overdue", getOverdueRentals);
+router.get("/overdue", authenticate, isAdmin, getOverdueRentals);
 
 // GET /api/rentals/stats - Statystyki wypożyczeń
-router.get("/stats", getStats);
+router.get("/stats", authenticate, isAdmin, getStats);
 
 // GET /api/rentals/most-rented - Najpopularniejsze książki
-router.get("/most-rented", getMostRented);
+router.get("/most-rented", authenticate, isAdmin, getMostRented);
 
 // GET /api/rentals/:id - Pobierz wypożyczenie po ID
-router.get("/:id", getRentalById);
+router.get("/:id", authenticate, isAdmin, getRentalById);
 
 // POST /api/rentals - Wypożycz książkę
-router.post("/", createRental);
+router.post("/", authenticate, isReader, createRental);
 
 // PUT /api/rentals/:id/return - Zwróć książkę
-router.patch("/:id/return", returnBook);
+router.patch("/:id/return", authenticate, isAdmin, returnBook);
 
 // PUT /api/rentals/:id/extend - Przedłuż wypożyczenie
-router.patch("/:id/extend", extendRental);
+router.patch("/:id/extend", authenticate, isAdmin, extendRental);
 
 export default router;

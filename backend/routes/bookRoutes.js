@@ -7,6 +7,7 @@ import {
   deleteBook,
   searchBooks,
 } from "../controllers/bookController.js";
+import { authenticate, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -20,12 +21,12 @@ router.get("/search", searchBooks);
 router.get("/:id", getBookById);
 
 // POST /api/books - Dodaj książkę
-router.post("/", createBook);
+router.post("/", authenticate, isAdmin, createBook);
 
 // PATCH /api/books - Edytuj książkę
-router.patch("/:id", updateBook);
+router.patch("/:id", authenticate, isAdmin, updateBook);
 
 // DELETE /api/books - Usuń książkę
-router.delete("/:id", deleteBook);
+router.delete("/:id", authenticate, isAdmin, deleteBook);
 
 export default router;
