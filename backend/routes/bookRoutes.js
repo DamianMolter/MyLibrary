@@ -7,7 +7,7 @@ import {
   deleteBook,
   searchBooks,
 } from "../controllers/bookController.js";
-import { authenticate, isAdmin } from "../middleware/auth";
+import { authenticate, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 

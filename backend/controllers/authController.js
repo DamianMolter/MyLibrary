@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import User from "../models/userModel";
-import { isValidEmail } from "../utils/validation";
+import User from "../models/userModel.js";
+import { isValidEmail } from "../utils/validation.js";
 
 // Generuj JWT token
 const generateToken = (userId) => {

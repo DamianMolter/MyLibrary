@@ -11,7 +11,7 @@ import {
   returnBook,
   extendRental,
 } from "../controllers/rentalController.js";
-import { authenticate, isAdmin, isReader } from "../middleware/auth";
+import { authenticate, isAdmin, isReader } from "../middleware/auth.js";
 
 const router = express.Router();
 

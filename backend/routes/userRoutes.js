@@ -9,7 +9,7 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/userController.js";
-import { authenticate, isAdmin } from "../middleware/auth";
+import { authenticate, isAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -23,10 +23,10 @@ router.get("/search", authenticate, isAdmin, searchUsers);
 router.get("/:id", authenticate, isAdmin, getUserById);
 
 // GET /api/users/:id/rentals - Historia wypożyczeń użytkownika
-router.get("/:id/rentals", authenticate, isAdmin, getUserRentalHistory);
+router.get("/:id/rentals", authenticate, getUserRentalHistory);
 
 // GET /api/users/:id/active-rentals - Aktywne wypożyczenia użytkownika
-router.get("/:id/active-rentals", authenticate, isAdmin, getUserActiveRentals);
+router.get("/:id/active-rentals", authenticate, getUserActiveRentals);
 
 // POST /api/users - Dodaj nowego użytkownika
 router.post("/", authenticate, isAdmin, createUser);
