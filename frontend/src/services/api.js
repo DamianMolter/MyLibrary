@@ -9,6 +9,41 @@ const api = axios.create({
   },
 });
 
+// Interceptor - automatyczne dodawanie tokenu do requestów
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor - obsługa błędów autoryzacji
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token wygasł lub jest nieprawidłowy
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Auth API
+export const authAPI = {
+  login: (email, password) => api.post("/auth/login", { email, password }),
+  register: (userData) => api.post("/auth/register", userData),
+  getMe: () => api.get("/auth/me"),
+  changePassword: (passwords) => api.put("/auth/change-password", passwords),
+};
+
 // Books API
 export const booksAPI = {
   getAll: () => api.get("/books"),
