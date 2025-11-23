@@ -4,6 +4,7 @@ import { usersAPI } from "../../services/api";
 import { formatDate, daysUntilDue, isOverdue } from "../../utils/helpers";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
 import ErrorMessage from "../../components/Common/ErrorMessage";
+import ChatBot from "../../components/Reader/ChatBot";
 import "./ReaderDashboard.css";
 
 const ReaderDashboard = () => {
@@ -12,11 +13,13 @@ const ReaderDashboard = () => {
   const [rentalHistory, setRentalHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("active"); // active, history
+  const [activeTab, setActiveTab] = useState("active"); // active, history, chatbot
 
   useEffect(() => {
-    fetchRentals();
-  }, [user]);
+    if (activeTab !== "chatbot") {
+      fetchRentals();
+    }
+  }, [user, activeTab]);
 
   const fetchRentals = async () => {
     try {
@@ -37,7 +40,7 @@ const ReaderDashboard = () => {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading && activeTab !== "chatbot") return <LoadingSpinner />;
 
   const returnedRentals = rentalHistory.filter((r) => r.status === "returned");
   const overdueCount = activeRentals.filter((r) =>
@@ -48,7 +51,7 @@ const ReaderDashboard = () => {
     <div className="reader-dashboard">
       <div className="dashboard-header">
         <h1>👋 Witaj, {user.first_name}!</h1>
-        <p>Zarządzaj swoimi wypożyczeniami</p>
+        <p>Zarządzaj swoimi wypożyczeniami i odkrywaj nowe książki</p>
       </div>
 
       {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
@@ -87,8 +90,21 @@ const ReaderDashboard = () => {
           >
             📜 Historia ({rentalHistory.length})
           </button>
+          <button
+            className={`tab ${activeTab === "chatbot" ? "active" : ""}`}
+            onClick={() => setActiveTab("chatbot")}
+          >
+            🤖 Asystent AI
+          </button>
         </div>
       </div>
+
+      {/* Chatbot Tab */}
+      {activeTab === "chatbot" && (
+        <div className="rentals-section chatbot-section">
+          <ChatBot />
+        </div>
+      )}
 
       {/* Aktywne wypożyczenia */}
       {activeTab === "active" && (
@@ -97,8 +113,14 @@ const ReaderDashboard = () => {
             <div className="empty-state">
               <p>📚 Nie masz aktywnych wypożyczeń</p>
               <p>
-                Przejdź do <a href="/reader/browse">przeglądania książek</a>,
-                aby wypożyczyć książkę
+                Przejdź do <a href="/reader/browse">przeglądania książek</a> lub{" "}
+                <button
+                  onClick={() => setActiveTab("chatbot")}
+                  className="link-button"
+                >
+                  zapytaj asystenta AI
+                </button>{" "}
+                o rekomendacje
               </p>
             </div>
           ) : (
