@@ -259,6 +259,25 @@ tr:hover {
   color: #2c3e50;
 }
 
+.chatbot-section {
+  padding: 0 !important;
+  height: 100%;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font: inherit;
+}
+
+.link-button:hover {
+  color: #2980b9;
+}
+
 @media (max-width: 768px) {
   .rentals-grid {
     grid-template-columns: 1fr;

@@ -92,4 +92,19 @@ export const googleBooksAPI = {
     api.post(`/google-books/${googleBooksId}/import`, copies),
 };
 
+// Recommendations API (Chatbot)
+export const recommendationsAPI = {
+  getWelcome: () => api.get("/recommendations/welcome"),
+  chat: (message, conversationHistory) =>
+    api.post("/recommendations/chat", {
+      message,
+      conversationHistory,
+    }),
+  sendFeedback: (bookId, helpful) =>
+    api.post("/recommendations/feedback", {
+      bookId,
+      helpful,
+    }),
+};
+
 export default api;

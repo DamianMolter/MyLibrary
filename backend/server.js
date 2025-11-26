@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 
 dotenv.config({ path: "./.env" });
 import authRoutes from "./routes/authRoutes.js";
@@ -9,6 +8,7 @@ import bookRoutes from "./routes/bookRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import rentalRoutes from "./routes/rentalRoutes.js";
 import googleBooksRoutes from "./routes/googleBooksRoutes.js";
+import recommendationRoutes from "./routes/recommendationRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -28,6 +28,7 @@ app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rentals", rentalRoutes);
 app.use("/api/google-books", googleBooksRoutes);
+app.use("/api/recommendations", recommendationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
