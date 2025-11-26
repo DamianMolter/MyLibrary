@@ -1,7 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import Book from "../models/bookModel.js";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 class AIRecommendationService {
   // Chatbot - rozmowa z AI o książkach
@@ -11,8 +11,6 @@ class AIRecommendationService {
     availableBooks = null
   ) {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-flash" });
-
       // Jeśli nie przekazano książek, pobierz je
       if (!availableBooks) {
         availableBooks = await Book.getAll();
@@ -34,17 +32,23 @@ class AIRecommendationService {
       );
 
       // Rozpocznij czat
-      const chat = model.startChat({
-        history: chatHistory,
-        generationConfig: {
-          maxOutputTokens: 1000,
+
+      const chat = genAI.chats.create({
+        model: "gemini-2.5-flash",
+        config: {
+          temperature: 0.5,
+          maxOutputTokens: 1024,
         },
+        history: chatHistory,
       });
 
       // Wyślij wiadomość użytkownika
-      const result = await chat.sendMessage(userMessage);
-      const response = await result.response;
-      const text = response.text();
+      console.log(userMessage);
+      const response = await chat.sendMessage({
+        message: userMessage,
+      });
+
+      const text = await response.text;
 
       // Spróbuj wyodrębnić rekomendacje książek z odpowiedzi
       const recommendations = this.extractRecommendations(text, available);
