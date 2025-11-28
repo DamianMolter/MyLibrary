@@ -4,7 +4,7 @@ import LoadingSpinner from "../Common/LoadingSpinner";
 import ErrorMessage from "../Common/ErrorMessage";
 import "./GoogleBooksSearch.css";
 
-const GoogleBooksSearch = ({ onImport, onClose }) => {
+const GoogleBooksSearch = ({ onClose }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState("general"); // general, title, author, isbn
   const [results, setResults] = useState([]);
@@ -64,11 +64,6 @@ const GoogleBooksSearch = ({ onImport, onClose }) => {
       };
 
       await googleBooksAPI.import(book.googleBooksId, copies);
-
-      // Wywołaj callback z rodzica
-      if (onImport) {
-        onImport();
-      }
 
       alert(`Książka "${book.title}" została zaimportowana!`);
     } catch (err) {
