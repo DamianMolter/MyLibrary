@@ -107,10 +107,6 @@ const BooksPage = () => {
     setEditingBook(null);
   };
 
-  const handleImportSuccess = () => {
-    fetchBooks(); // Odśwież listę książek po imporcie
-  };
-
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -134,10 +130,7 @@ const BooksPage = () => {
       {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       {showGoogleSearch && (
-        <GoogleBooksSearch
-          onImport={handleImportSuccess}
-          onClose={() => setShowGoogleSearch(false)}
-        />
+        <GoogleBooksSearch onClose={() => setShowGoogleSearch(false)} />
       )}
 
       {showForm && (
