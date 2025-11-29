@@ -59,11 +59,11 @@ VALUES (
   '$2b$10$K8p4aKZ0.L5l5l5l5l5l5OeGZQvJ5J5J5J5J5J5J5J5J5J5J5J5J5O',
   'admin', 
   '000000000'
-)
+),
 -- Insert example reader user
 -- Password: password123
 -- IMPORTANT: Change this password after first login!
-VALUES (
+(
    'Czytelnik',
    'System',
    'jan@example.com',
