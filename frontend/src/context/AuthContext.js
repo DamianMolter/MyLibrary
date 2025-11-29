@@ -4,6 +4,8 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -39,7 +41,7 @@ export const AuthProvider = ({ children }) => {
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
           // Pobierz dane użytkownika
-          const response = await axios.get("http://localhost:5000/api/auth/me");
+          const response = await axios.get(`${API_BASE_URL}/auth/me`);
           setUser(response.data.data);
         } catch (error) {
           console.error("Error loading user:", error);
@@ -55,13 +57,10 @@ export const AuthProvider = ({ children }) => {
   // Logowanie
   const login = async (email, password) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+        email,
+        password,
+      });
 
       const { token, user } = response.data.data;
 
@@ -87,7 +86,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${API_BASE_URL}/auth/register`,
         userData
       );
 
