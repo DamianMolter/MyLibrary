@@ -56,7 +56,7 @@ VALUES (
   'Admin', 
   'System', 
   'admin@library.com', 
-  '$2b$10$K8p4aKZ0.L5l5l5l5l5l5OeGZQvJ5J5J5J5J5J5J5J5J5J5J5J5J5O',
+  '$2a$12$Cton89SvPFIS9TzVCbGgPewva9wqqSv4hbXU2W5P58DmdoIni8FgS',
   'admin', 
   '000000000'
 ),
@@ -67,7 +67,7 @@ VALUES (
    'Czytelnik',
    'System',
    'jan@example.com',
-   '$2a$12$uwSb3d5hv368cMqIgI/SvuO27faSiGMmdH5z5tY43Hrj6v1BsL2tK',
+   '$2a$12$n0NZqaHIHneh9T1UAba.1u9Lvd3CHO.z.6MBVrqe1MToJW1R4GsS.',
    'reader',
    '000000000')
  ON DUPLICATE KEY UPDATE email = email;
