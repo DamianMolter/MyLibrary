@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,6 +24,7 @@ import StatsPage from "./pages/StatsPage";
 // Strony czytelnika
 import ReaderDashboard from "./pages/Reader/ReaderDashboard";
 import ReaderBrowsePage from "./pages/Reader/ReaderBrowsePage";
+import MyReservationsPage from "./pages/Reader/MyReservationsPage"; // NOWE
 
 import "./App.css";
 
@@ -120,6 +122,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <ReaderBrowsePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reader/reservations"
+            element={
+              <ProtectedRoute>
+                <MyReservationsPage />
               </ProtectedRoute>
             }
           />
