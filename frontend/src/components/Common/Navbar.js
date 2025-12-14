@@ -48,6 +48,11 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="navbar-item">
+                <Link to="/admin/reservations" className="navbar-link">
+                  Rezerwacje
+                </Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/stats" className="navbar-link">
                   Statystyki
                 </Link>

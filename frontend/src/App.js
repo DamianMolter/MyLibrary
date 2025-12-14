@@ -20,6 +20,7 @@ import BooksPage from "./pages/BooksPage";
 import UsersPage from "./pages/UsersPage";
 import RentalsPage from "./pages/RentalsPage";
 import StatsPage from "./pages/StatsPage";
+import AdminReservationsPage from "./pages/Admin/AdminReservationsPage";
 
 // Strony czytelnika
 import ReaderDashboard from "./pages/Reader/ReaderDashboard";
@@ -96,6 +97,14 @@ function AppContent() {
             element={
               <ProtectedRoute adminOnly>
                 <RentalsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/reservations"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminReservationsPage />
               </ProtectedRoute>
             }
           />
