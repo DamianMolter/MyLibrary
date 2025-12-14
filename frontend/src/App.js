@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,10 +20,12 @@ import BooksPage from "./pages/BooksPage";
 import UsersPage from "./pages/UsersPage";
 import RentalsPage from "./pages/RentalsPage";
 import StatsPage from "./pages/StatsPage";
+import AdminReservationsPage from "./pages/Admin/AdminReservationsPage";
 
 // Strony czytelnika
 import ReaderDashboard from "./pages/Reader/ReaderDashboard";
 import ReaderBrowsePage from "./pages/Reader/ReaderBrowsePage";
+import MyReservationsPage from "./pages/Reader/MyReservationsPage"; // NOWE
 
 import "./App.css";
 
@@ -98,6 +101,14 @@ function AppContent() {
             }
           />
           <Route
+            path="/admin/reservations"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminReservationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/stats"
             element={
               <ProtectedRoute adminOnly>
@@ -120,6 +131,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <ReaderBrowsePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reader/reservations"
+            element={
+              <ProtectedRoute>
+                <MyReservationsPage />
               </ProtectedRoute>
             }
           />

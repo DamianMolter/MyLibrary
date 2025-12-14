@@ -110,4 +110,25 @@ export const recommendationsAPI = {
     }),
 };
 
+// Reservations API
+export const reservationsAPI = {
+  getAll: () => api.get("/reservations"),
+  getById: (id) => api.get(`/reservations/${id}`),
+  getMy: () => api.get("/reservations/my"),
+  getPending: () => api.get("/reservations/pending"),
+  getApproved: () => api.get("/reservations/approved"),
+  getStats: () => api.get("/reservations/stats"),
+  create: (reservationData) => api.post("/reservations", reservationData),
+  approve: (id, notes) =>
+    api.put(`/reservations/${id}/approve`, { admin_notes: notes }),
+  reject: (id, notes) =>
+    api.put(`/reservations/${id}/reject`, { admin_notes: notes }),
+  cancel: (id) => api.put(`/reservations/${id}/cancel`),
+  convertToRental: (id, rentalDate, dueDate) =>
+    api.post(`/reservations/${id}/convert`, {
+      rental_date: rentalDate,
+      due_date: dueDate,
+    }),
+};
+
 export default api;

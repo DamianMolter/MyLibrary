@@ -48,6 +48,11 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="navbar-item">
+                <Link to="/admin/reservations" className="navbar-link">
+                  Rezerwacje
+                </Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/stats" className="navbar-link">
                   Statystyki
                 </Link>
@@ -59,6 +64,11 @@ const Navbar = () => {
               <li className="navbar-item">
                 <Link to="/reader" className="navbar-link">
                   Moje wypożyczenia
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/reader/reservations" className="navbar-link">
+                  Moje rezerwacje
                 </Link>
               </li>
               <li className="navbar-item">
